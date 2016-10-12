@@ -1,4 +1,4 @@
-# coursera-getting-and-cleaning-data-project
+# Coursera-Getting-and-Cleaning-Data-Project
 Coursera-Peer-graded-Assignment-Getting-and-Cleaning-Data
 
 1. Merges the training and the test sets to create one data set.
