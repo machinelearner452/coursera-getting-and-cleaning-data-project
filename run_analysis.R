@@ -92,34 +92,41 @@ features[,2] <- as.character(features[,2])
 
 ## Extract only the data on mean and standard deviation
 ## This line alings mean and std text with correct row numbers
-featuressought <- grep(".*mean.*|.*std.*", features[,2])
+## !!!!This line was adjusted post the reiew of other tidy report as it was clear 7 varables were missed, those with the "Mean" lable
+featuressought <- grep(".*mean.*|.*std.*",ignore.case = TRUE, features[,2])
 
-## this aligns the names with -mean or -std and converts  Mean or Std to capitals
+## this aligns the names with -mean or -std or Mean and converts or Mean / Std to capitals
 featuressought.names <- features[featuressought,2]
 featuressought.names = gsub('-mean', 'Mean' , featuressought.names)
 featuressought.names = gsub('-std', 'Std' , featuressought.names)
+## !!!!These line was adjusted post the reiew of other tidy report as it was clear 7 varables were missed, those with the "Mean" lable
+featuressought.names = gsub('[()]', '', featuressought.names)
+featuressought.names = gsub('[-]', '', featuressought.names)
+featuressought.names = gsub(' ', '', featuressought.names)
+featuressought.names = gsub(',', '', featuressought.names)
 
-# The result is 79 rows of data with Mean or Std in the names
+
+# The result is 86 rows of data with Mean or Std in the names
 #cat("\n", "The feature set is:")
 #print(featuressought.names)
 
 # Load the datasets
-# this section starts with the test data set, marries it with the 79 variables in header
+# this section starts with the test data set, marries it with the 86 variables in header
 test <- read.table("./data/UCI HAR Dataset/test/X_test.txt")[featuressought]
 # using note++ to view the Y_data & subject_test data can be seen that 1 of 30 subjects and 1 to 6 activies an be combined
 testactivities <- read.table("./data/UCI HAR Dataset/test/Y_test.txt")
 testsubjects <- read.table("./data/UCI HAR Dataset/test/subject_test.txt")
-# Cbind is used to combine the 79 mean/std data set with activity and subject
+# Cbind is used to combine the 86 mean/std data set with activity and subject
 test <- cbind(testsubjects, testactivities, test)
 #cat("\n", "The test sample set is:")
 #print(head(test))
 
-# this section starts with the test data set, marries it with the 79 variables in header
+# this section starts with the test data set, marries it with the 86 variables in header
 train <- read.table("./data/UCI HAR Dataset/train/X_train.txt")[featuressought]
 # using note++ to view the Y_data & subject_test data can be seen that 1 of 30 subjects and 1 to 6 activies an be combined
 trainactivities <- read.table("./data/UCI HAR Dataset/train/Y_train.txt")
 trainsubjects <- read.table("./data/UCI HAR Dataset/train/subject_train.txt")
-# cbind is used to combine the 79 mean/std data set with activity and subject
+# cbind is used to combine the 86 mean/std data set with activity and subject
 train <- cbind(trainsubjects, trainactivities, train)
 #cat("\n", "The train sample set is:")
 #print(head(train))
@@ -143,4 +150,4 @@ alldata.meanstd <- dcast(alldata.melted, subject + activity ~ variable, mean)
 setwd("C:/Users/Joe/Documents/Coursera/Johns Hopkins University/Getting and Cleaning Data/data/")
 #print(getwd())
 write.table(alldata.meanstd, "tidy.txt", row.names = FALSE, quote = FALSE)
-#print(names(alldata))
+##print(names(alldata))
