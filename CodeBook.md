@@ -1,9 +1,9 @@
 # CodeBook
 Joe Larson
-October 26, 2016
+October 30, 2016
 
 
-#Synopsis
+##Synopsis
 The purpose of this project is to demonstrate ability to collect, work with, and clean a data set. The goal is to prepare tidy data that can be used for later analysis. Required to submit: tidy data set, script for performing the analysis, and a code book.
 Data
 Companies like Fitbit, Nike, and Jawbone Up are racing to develop the most advanced algorithms to attract new users. The data linked to from the course website represent data collected from the accelerometers from the Samsung Galaxy S smartphone. A full description is available at the site where the data was obtained:
@@ -19,12 +19,12 @@ Libraries Used
 The libraries used in this operation are:  library(dplyr), library(data.table), library(lubridate) 
 Assignment
 The assignment is to create one R script called run_analysis.R that does the following:
-## 1-Merges the training and the test sets to create one data set.
-## 2-Extracts only the measurements on the mean and standard deviation for each measurement.
-## 3-Uses descriptive activity names to name the activities in the data set
-## 4-Appropriately labels the data set with descriptive variable names.
-## 5-From the data set in step 4, creates a second, 
-##   independent tidy data set with the average of each variable for each activity and each subject. 
+### 1-Merges the training and the test sets to create one data set.
+### 2-Extracts only the measurements on the mean and standard deviation for each measurement.
+### 3-Uses descriptive activity names to name the activities in the data set
+### 4-Appropriately labels the data set with descriptive variable names.
+### 5-From the data set in step 4, creates a second, 
+###   independent tidy data set with the average of each variable for each activity and each subject. 
 Data processing
 #1. Downloading and unzipping dataset
 datedownloadzip <- ymd("20161023") original date set to
@@ -99,7 +99,7 @@ dim (read.table("./UCI HAR Dataset/train/y_train.txt"))
 ## [1] 7352    1
 dim(read.table("./UCI HAR Dataset/train/subject_train.txt"))
 ## [1] 7352    1
-PART 2: Joining tables to create a master dataset
+# PART 2: Joining tables to create a master dataset
 •	PART 2 of the R script run_analysis joins the test and training datsets, adds column names, activity labels and subject list
 •	2.1 Covert the activies and feature to charter vs as.character
 ## Load activity labels + features
@@ -119,7 +119,7 @@ featuressought.names = gsub('Mean', 'Mean' , featuressought.names)
 featuressought.names = gsub('-std', 'Std' , featuressought.names)
 ## The result is 86 rows of data with Mean or Std in the names 
 
-PART 3: Extracts only the measurements on the mean and standard deviation for each measurement and adds descriptive activity names to name the activities in the data set
+# PART 3: Extracts only the measurements on the mean and standard deviation for each measurement and adds descriptive activity names to name the activities in the data set
 •	Part 3 of the R Script run_analysis (Please Note: This portion of the script utilizes the dplyr package) -
 •	X-test is 561 columns of data that has test data.
 •	Y-test is 1 column of data that has test activities type data.
@@ -149,17 +149,14 @@ train <- cbind(trainsubjects, trainactivities, train)
 #cat("\n", "The train sample set is:")
 #print(head(train))
 
-
-
-
-PART 3: Extracts only the measurements on the mean and standard deviation for each measurement and adds descriptive activity names to name the activities in the data set
+# PART 3: Extracts only the measurements on the mean and standard deviation for each measurement and adds descriptive activity names to name the activities in the data set
 •	Part 3.1 
 •	Takes test and train and adds in the correct labels of subject and activity
 •	alldata.melted table is the combination of all the test and train data for the 6 actives and 30 subjects that have either mean or std in the measure lable. 
 •	At the end of this code is a data set called “alldata.meanstd “ which is 180 observations (30 subject * 6 activities) and the mean of all the measure recorded as part of the test or train data set.   
 
-# merge datasets and add labels
-# rbind is used to combine the test and train data sets at the row level
+## merge datasets and add labels
+## rbind is used to combine the test and train data sets at the row level
 alldata <- rbind(train, test)
 #This addes the first two coloumn names to new cloumns V1 and V2 data
 colnames(alldata) <- c("subject", "activity", featuressought.names)
@@ -169,11 +166,11 @@ alldata$activity <- factor(alldata$activity, levels = activitylabels[,1], labels
 alldata$subject <- as.factor(alldata$subject)
 
 alldata.melted <- melt(alldata, id = c("subject", "activity"))
-# this the final step to get the mean and std measurment all align with the subject and activities
+## this the final step to get the mean and std measurment all align with the subject and activities
 alldata.meanstd <- dcast(alldata.melted, subject + activity ~ variable, mean)
 
 
-PART 4: Labels the data set with descriptive variable names wherever approrpiate
+# PART 4: Labels the data set with descriptive variable names wherever approrpiate
 •	Part 4 of the R Script run_analysis -
 •	Subsititutes specific character strings in the column names of the dataset meansd_act with more descriptive labels
 •	This si a repeat of the above section
@@ -181,7 +178,7 @@ alldata.melted <- melt(alldata, id = c("subject", "activity"))
 # this the final step to get the mean and std measurment all align with the subject and activities
 alldata.meanstd <- dcast(alldata.melted, subject + activity ~ variable, mean)
 
-PART 5: Creates a second, independent tidy data set with the average of each variable for each activity and each subject
+# PART 5: Creates a second, independent tidy data set with the average of each variable for each activity and each subject
 •	Part 5 of the R script run_analysis produces the file called tidy.txt and saving in the working directory – 86 data means
 ## setwd("C:/Users/Joe/Documents/Coursera/Johns Hopkins University/Getting and Cleaning Data/data/")
 print(getwd())
