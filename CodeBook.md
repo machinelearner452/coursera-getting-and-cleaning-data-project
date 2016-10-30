@@ -1,7 +1,7 @@
-# Code Book
+# CodeBook
 Joe Larson
 October 26, 2016
-Link to project on GitHUB
+
 
 #Synopsis
 The purpose of this project is to demonstrate ability to collect, work with, and clean a data set. The goal is to prepare tidy data that can be used for later analysis. Required to submit: tidy data set, script for performing the analysis, and a code book.
